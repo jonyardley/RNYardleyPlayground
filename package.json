@@ -1,0 +1,51 @@
+{
+  "name": "RNYardleyPlayground",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "run-ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "run-android": "node node_modules/react-native/local-cli/cli.js run-android --appId org.prideinlondon.festival.dev --variant devDebug",
+    "test": "TZ=UTC jest src --maxWorkers=2"
+  },
+  "dependencies": {
+    "mobx": "^5.0.0",
+    "mobx-react": "^5.2.0",
+    "react": "16.3.1",
+    "react-native": "0.55.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.0.0",
+    "@types/react": "^16.3.16",
+    "@types/react-native": "^0.55.17",
+    "@types/react-test-renderer": "^16.0.1",
+    "babel-jest": "23.0.1",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "23.1.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-native-typescript-transformer": "^1.2.9",
+    "react-test-renderer": "^16.4.0",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "typescript": "^2.9.1"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(js)$": "<rootDir>/node_modules/babel-jest",
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testPathIgnorePatterns": [
+      "\\.snap$",
+      "<rootDir>/node_modules/"
+    ],
+    "cacheDirectory": ".jest/cache"
+  }
+}
