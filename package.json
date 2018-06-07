@@ -9,6 +9,9 @@
     "test": "TZ=UTC jest src --maxWorkers=2"
   },
   "dependencies": {
+    "appcenter": "^1.5.1",
+    "appcenter-analytics": "^1.5.1",
+    "appcenter-crashes": "^1.5.1",
     "mobx": "^5.0.0",
     "mobx-react": "^5.2.0",
     "react": "16.3.1",

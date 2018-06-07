@@ -1,0 +1,111 @@
+# version: 2
+
+# defaults: &defaults
+#   working_directory: ~/project
+#   docker:
+#     - image: circleci/node:latest
+
+# ios_defaults: &ios_defaults
+#   working_directory: ~/project/ios
+#   macos:
+#       xcode: "9.1.0"
+#   environment:
+#     - LANG: "en_US.UTF-8"
+#     - MATCH_KEYCHAIN_NAME: "circle"
+#     - MATCH_KEYCHAIN_PASSWORD: "circle"
+
+# jobs:
+#   install-dependencies:
+#     <<: *defaults
+#     steps:
+#       - checkout
+#       - attach_workspace:
+#           at: ~/project 
+#       - restore_cache:
+#           keys:
+#           - v1-0-dependencies-{{ checksum "package.json" }}
+#           # fallback to using the latest cache if no exact match is found
+#           - v1-0-dependencies-
+#       - run:
+#           name: Install Dependencies
+#           command: yarn
+#       - save_cache:
+#           key: v1-0-dependencies-{{ checksum "package.json" }}
+#           paths:
+#             - node_modules
+#             - yarn.lock
+#       - persist_to_workspace:
+#           root: .
+#           paths: .
+  
+#   lint:
+#     <<: *defaults
+#     steps:
+#       - attach_workspace:
+#          at: ~/project
+#       - run: yarn lint
+  
+#   unit-tests:
+#     <<: *defaults
+#     steps:
+#       - attach_workspace:
+#           at: ~/project
+#       - restore_cache:
+#           keys:
+#           - v1-0-jest-cache-{{ checksum "package.json" }}
+#           # fallback to using the latest cache if no exact match is found
+#           - v1-0-jest-cache-
+#       - run: yarn test:ci
+#       - save_cache:
+#           key: v1-0-jest-cache-{{ checksum "package.json" }}
+#           paths:
+#             - .jestCache
+#       - persist_to_workspace:
+#           root: .
+#           paths: .
+  
+#   danger:
+#       <<: *defaults
+#       steps:
+#         - attach_workspace:
+#             at: ~/project
+#         - run: yarn danger
+  
+#   ios-beta:
+#     <<: *ios_defaults 
+#     steps:
+#       - attach_workspace:
+#           at: ~/project
+#       - run:
+#           name: Install CocoaPod Spec 
+#           command: curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+#       - run:
+#           name: Install Ruby and Fastlane
+#           command: |
+#            brew install ruby
+#            gem install fastlane
+#       - run:
+#           name: Update CocaPods dependencies
+#           command: pod install --verbose
+#           timeout: 1200
+#       - run:
+#           name: Bundle update
+#           command: bundle update
+#       - run:
+#           name: Fastlane
+#           command: bundle exec fastlane beta
+
+# workflows:
+#   version: 2
+#   test:
+#     jobs:
+#       - install-dependencies
+#       - lint:
+#           requires:
+#             - install-dependencies
+#       - unit-tests:
+#           requires:
+#             - install-dependencies
+#       - danger:
+#           requires:
+#             - install-dependencies
